@@ -38,6 +38,8 @@ export default function Page() {
         error.code === "auth/invalid-credential"
       ) {
         alert("Invalid email or password");
+      } else {
+        alert((error as Error).message);
       }
     } finally {
       setSubmitLoading(false);

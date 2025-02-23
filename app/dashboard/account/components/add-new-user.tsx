@@ -32,12 +32,18 @@ export default function AddNewUserModal(props: Props) {
     e.preventDefault();
     setLoading(true);
     try {
+      const body = {
+        ...data,
+        division:
+          data.division.charAt(0).toUpperCase() + data.division.substring(1),
+      };
+
       const result = await fetch("/api/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(body),
       });
 
       if (result.ok) {

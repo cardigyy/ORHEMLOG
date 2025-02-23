@@ -79,7 +79,7 @@ export default function DashboardNavbar({ logout }: { logout: () => void }) {
       <NavbarContent justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
-            <Avatar size="md" name="Adm" className="cursor-pointer" />
+            <Avatar size="md" className="cursor-pointer" />
           </DropdownTrigger>
           <DropdownMenu variant="flat">
             <DropdownItem key="logout" onPress={logout}>

@@ -32,8 +32,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (signedUser) => {
-      setUser(signedUser);
+    const unsubscribe = onAuthStateChanged(auth, async (signedUser) => {
+      if (signedUser) {
+        const tokenResult = await signedUser.getIdTokenResult();
+
+        if (tokenResult.claims.division !== "Admin") {
+          signOut(auth);
+          alert("You are not authorized to access this page");
+        } else {
+          setUser(signedUser);
+        }
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
 
@@ -41,7 +52,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    return await signInWithEmailAndPassword(auth, email, password);
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    return credential;
   };
 
   const logout = async () => {
