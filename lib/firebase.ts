@@ -13,4 +13,3 @@ export const firebase = admin.apps.length
   : admin.initializeApp(config);
 
 export const firestore = firebase.firestore();
-export const auth = firebase.auth();
