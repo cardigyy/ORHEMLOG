@@ -12,19 +12,16 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@heroui/navbar";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { fontBlackOpsOne } from "@/config/fonts";
-import Route from "@/config/routes";
 
 export default function DashboardNavbar() {
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuItems = ["Account", "History"];
   return (
@@ -38,18 +35,18 @@ export default function DashboardNavbar() {
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden text-white"
+          className="text-white sm:hidden"
         />
         <NavbarBrand>
           <p
-            className={`text-xl pt-1 lg:pt-0 lg:text-2xl font-semibold text-white ${fontBlackOpsOne.className}`}
+            className={`pt-1 text-xl font-semibold text-white lg:pt-0 lg:text-2xl ${fontBlackOpsOne.className}`}
           >
             ORHEMLOG
           </p>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-8" justify="center">
+      {/* <NavbarContent className="hidden sm:flex gap-8" justify="center">
         <NavbarItem isActive>
           <Link
             href={Route.DASHBOARD_ACCOUNT}
@@ -78,7 +75,7 @@ export default function DashboardNavbar() {
             History
           </Link>
         </NavbarItem>
-      </NavbarContent>
+      </NavbarContent> */}
 
       <NavbarContent justify="end">
         <Dropdown placement="bottom-end">
