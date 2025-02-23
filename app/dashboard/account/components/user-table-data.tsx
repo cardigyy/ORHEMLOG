@@ -3,18 +3,22 @@
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { useDisclosure } from "@heroui/modal";
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 
-import AddNewUserModal from "./add-new-user";
 import DeleteUserModal from "./delete-user";
 import EditUserModal from "./edit-user";
 import UserTable from "./user-table";
 
 import { SearchIcon } from "@/components/icons";
-import { User } from "@/config/types";
+import { IUser } from "@/config/types";
+
+const AddModal = dynamic(() => import("./add-new-user"), {
+  loading: () => <p>Loading...</p>,
+});
 
 interface Props {
-  users: User[];
+  users: IUser[];
 }
 
 export default function UserTableData({ users }: Props) {
@@ -22,7 +26,7 @@ export default function UserTableData({ users }: Props) {
     useDisclosure();
   const { isOpen: addOpen, onOpenChange: addOpenChange } = useDisclosure();
   const { isOpen: editOpen, onOpenChange: editOpenChange } = useDisclosure();
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const rowsPerPage = 8;
@@ -85,7 +89,7 @@ export default function UserTableData({ users }: Props) {
         </div>
       </div>
 
-      <AddNewUserModal isOpen={addOpen} onClose={addOpenChange} />
+      <AddModal isOpen={addOpen} onClose={addOpenChange} />
 
       {selectedUser && (
         <EditUserModal

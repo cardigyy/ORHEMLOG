@@ -4,30 +4,29 @@ import UserTableData from "./components/user-table-data";
 import Loading from "./loading";
 
 import { fontRoboto } from "@/config/fonts";
-import { User } from "@/config/types";
+import { IUser } from "@/config/types";
+import { adminDB } from "@/lib/firebase";
 
-function generateRows(count: number): User[] {
-  return Array.from({ length: count }, (_, index) => ({
-    key: index.toString(),
-    name: `Name ${index}`,
-    email: `name${index}@gmail.com`,
-    division: index % 3 === 0 ? `Apasi` : `Letsgo`,
-    status: index % 2 === 0,
-  }));
-}
-
-const accountData = generateRows(50);
-
-async function fetchData(): Promise<User[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(accountData);
-    }, 100);
+async function fetchData(): Promise<IUser[]> {
+  const userRef = adminDB.collection("users").orderBy("name");
+  const snapshot = await userRef.get();
+  const data = snapshot.docs.map((doc) => {
+    const docData = doc.data();
+    return {
+      id: doc.id.toString(),
+      ...docData,
+      createdAt: docData.createdAt?.toDate().toISOString() || null,
+      updatedAt: docData.updatedAt?.toDate().toISOString() || null,
+    };
   });
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return data as IUser[];
 }
 
 export default async function Dashboard() {
   const users = await fetchData();
+
   return (
     <div className={`flex flex-col pt-6 ${fontRoboto.className}`}>
       <p className="text-xl font-semibold md:text-2xl">Account Management</p>

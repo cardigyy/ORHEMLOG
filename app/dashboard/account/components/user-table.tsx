@@ -12,17 +12,17 @@ import {
 } from "@heroui/table";
 
 import { DeleteIcon, EditIcon, HistoryIcon } from "@/components/icons";
-import { User } from "@/config/types";
+import { IUser } from "@/config/types";
 
 interface Props {
-  items: User[];
+  items: IUser[];
   onPageChange: (page: number) => void;
   page: {
     total: number;
     current: number;
   };
-  openDeleteModal: (user: User) => void;
-  onEdit: (user: User) => void;
+  openDeleteModal: (user: IUser) => void;
+  onEdit: (user: IUser) => void;
 }
 
 export default function UserTable({
@@ -53,7 +53,9 @@ export default function UserTable({
       }
     >
       <TableHeader>
-        <TableColumn key="name">Name</TableColumn>
+        <TableColumn key="name" className="w-96">
+          Name
+        </TableColumn>
         <TableColumn key="email">Email</TableColumn>
         <TableColumn key="division">Division</TableColumn>
         <TableColumn key="status">Status</TableColumn>
@@ -63,7 +65,7 @@ export default function UserTable({
       </TableHeader>
       <TableBody items={items} emptyContent={"No data"}>
         {(row) => (
-          <TableRow key={row.key}>
+          <TableRow key={row.id}>
             <TableCell className="font-semibold">{row.name}</TableCell>
             <TableCell>{row.email}</TableCell>
             <TableCell>{row.division}</TableCell>
@@ -77,7 +79,7 @@ export default function UserTable({
               </Chip>
             </TableCell>
             <TableCell className="flex items-center justify-center gap-1">
-              <Link href={`/dashboard/account/${row.key}/history`}>
+              <Link href={`/dashboard/account/${row.id}/history`}>
                 <Button isIconOnly color="primary" title="History">
                   <HistoryIcon className="size-5" />
                 </Button>

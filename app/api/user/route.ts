@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { adminAuth, FIREBASE_TIMESTAMP, firestore } from "@/lib/firebase";
+import {
+  adminAuth,
+  FIREBASE_TIMESTAMP,
+  adminDB as firestore,
+} from "@/lib/firebase";
 
 export const runtime = "nodejs";
 export async function POST(req: NextRequest) {

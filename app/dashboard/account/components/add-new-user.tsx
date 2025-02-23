@@ -12,6 +12,7 @@ import {
 } from "@heroui/modal";
 import { Spinner } from "@heroui/spinner";
 import { addToast } from "@heroui/toast";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
@@ -27,6 +28,7 @@ export default function AddNewUserModal(props: Props) {
     division: "",
   });
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,6 +49,7 @@ export default function AddNewUserModal(props: Props) {
       });
 
       if (result.ok) {
+        router.refresh();
         addToast({
           title: "SUCCESS",
           description: "User added successfully",
@@ -80,6 +83,7 @@ export default function AddNewUserModal(props: Props) {
       onClose={props.onClose}
       backdrop="blur"
       isDismissable={false}
+      isKeyboardDismissDisabled={true}
       hideCloseButton={true}
     >
       <Form validationBehavior="native" onSubmit={onSubmit}>

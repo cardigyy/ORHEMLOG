@@ -13,6 +13,6 @@ export const firebase = admin.apps.length
   ? admin.app()
   : admin.initializeApp(config);
 
-export const firestore = firebase.firestore();
+export const adminDB = firebase.firestore();
 export const adminAuth = firebase.auth();
 export const FIREBASE_TIMESTAMP = admin.firestore.FieldValue.serverTimestamp();

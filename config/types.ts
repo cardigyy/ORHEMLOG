@@ -1,9 +1,11 @@
-export interface User {
-  key: string;
+export interface IUser {
+  id: string;
   name: string;
   email: string;
   division: string;
   status: boolean;
+  createdAt: string | null;
+  updatedAt: string | null
 }
 
 export interface PartDetection {
