@@ -14,3 +14,7 @@ const firebaseConfig = {
 
 const firebase = initializeApp(firebaseConfig);
 export const auth = getAuth(firebase);
+
+// onAuthStateChanged(auth, (user) => {
+//   console.log("APASIH", user);
+// });

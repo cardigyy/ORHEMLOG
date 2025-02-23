@@ -20,8 +20,7 @@ import { useState } from "react";
 
 import { fontBlackOpsOne } from "@/config/fonts";
 
-export default function DashboardNavbar() {
-  // const pathname = usePathname();
+export default function DashboardNavbar({ logout }: { logout: () => void }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuItems = ["Account", "History"];
   return (
@@ -83,7 +82,7 @@ export default function DashboardNavbar() {
             <Avatar size="md" name="Adm" className="cursor-pointer" />
           </DropdownTrigger>
           <DropdownMenu variant="flat">
-            <DropdownItem key="logout" href="/">
+            <DropdownItem key="logout" onPress={logout}>
               <p>Logout</p>
             </DropdownItem>
           </DropdownMenu>

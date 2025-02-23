@@ -1,5 +1,6 @@
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
+import { Link } from "@heroui/link";
 import { Pagination } from "@heroui/pagination";
 import {
   Table,
@@ -10,7 +11,7 @@ import {
   TableRow,
 } from "@heroui/table";
 
-import { DeleteIcon, EditIcon } from "@/components/icons";
+import { DeleteIcon, EditIcon, HistoryIcon } from "@/components/icons";
 import { User } from "@/config/types";
 
 interface Props {
@@ -76,9 +77,14 @@ export default function UserTable({
               </Chip>
             </TableCell>
             <TableCell className="flex items-center justify-center gap-1">
+              <Link href={`/dashboard/account/${row.key}/history`}>
+                <Button isIconOnly color="primary" title="History">
+                  <HistoryIcon className="size-5" />
+                </Button>
+              </Link>
               <Button
                 isIconOnly
-                color="primary"
+                color="warning"
                 title="Edit"
                 onPress={() => onEdit(row)}
               >
