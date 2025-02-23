@@ -11,20 +11,17 @@ import {
 } from "@heroui/table";
 
 import { DeleteIcon, EditIcon } from "@/components/icons";
+import { User } from "@/config/types";
 
 interface Props {
-  items: {
-    key: string;
-    name: string;
-    division: string;
-    status: boolean;
-  }[];
+  items: User[];
   onPageChange: (page: number) => void;
   page: {
     total: number;
     current: number;
   };
-  openDeleteModal: () => void;
+  openDeleteModal: (user: User) => void;
+  onEdit: (user: User) => void;
 }
 
 export default function UserTable({
@@ -32,6 +29,7 @@ export default function UserTable({
   onPageChange,
   page,
   openDeleteModal,
+  onEdit,
 }: Props) {
   return (
     <Table
@@ -40,7 +38,7 @@ export default function UserTable({
       maxTableHeight={600}
       rowHeight={60}
       bottomContent={
-        <div className="flex w-full justify-center absolute bottom-4 left-0">
+        <div className="absolute bottom-4 left-0 flex w-full justify-center">
           <Pagination
             isCompact
             showControls
@@ -55,6 +53,7 @@ export default function UserTable({
     >
       <TableHeader>
         <TableColumn key="name">Name</TableColumn>
+        <TableColumn key="email">Email</TableColumn>
         <TableColumn key="division">Division</TableColumn>
         <TableColumn key="status">Status</TableColumn>
         <TableColumn key="action" className="w-40" align="center">
@@ -65,6 +64,7 @@ export default function UserTable({
         {(row) => (
           <TableRow key={row.key}>
             <TableCell className="font-semibold">{row.name}</TableCell>
+            <TableCell>{row.email}</TableCell>
             <TableCell>{row.division}</TableCell>
             <TableCell>
               <Chip
@@ -76,14 +76,19 @@ export default function UserTable({
               </Chip>
             </TableCell>
             <TableCell className="flex items-center justify-center gap-1">
-              <Button isIconOnly color="primary" title="Edit">
+              <Button
+                isIconOnly
+                color="primary"
+                title="Edit"
+                onPress={() => onEdit(row)}
+              >
                 <EditIcon className="size-5" />
               </Button>
               <Button
                 isIconOnly
                 color="danger"
                 title="Delete"
-                onPress={openDeleteModal}
+                onPress={() => openDeleteModal(row)}
               >
                 <DeleteIcon className="size-5" />
               </Button>

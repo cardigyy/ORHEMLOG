@@ -2,33 +2,27 @@
 
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
-} from "@heroui/modal";
+import { useDisclosure } from "@heroui/modal";
 import { useMemo, useState } from "react";
 
 import AddNewUserModal from "./add-new-user";
+import DeleteUserModal from "./delete-user";
+import EditUserModal from "./edit-user";
 import UserTable from "./user-table";
 
 import { SearchIcon } from "@/components/icons";
+import { User } from "@/config/types";
 
 interface Props {
-  users: {
-    key: string;
-    name: string;
-    division: string;
-    status: boolean;
-  }[];
+  users: User[];
 }
 
 export default function UserTableData({ users }: Props) {
   const { isOpen: deleteOpen, onOpenChange: deleteOpenChange } =
     useDisclosure();
   const { isOpen: addOpen, onOpenChange: addOpenChange } = useDisclosure();
+  const { isOpen: editOpen, onOpenChange: editOpenChange } = useDisclosure();
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const rowsPerPage = 8;
@@ -51,10 +45,10 @@ export default function UserTableData({ users }: Props) {
   return (
     <>
       <div className="flex flex-col pt-2">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <Input
             placeholder="Search by name..."
-            className="w-full md:w-96"
+            className="w-48 sm:w-96"
             size="lg"
             variant="flat"
             color="default"
@@ -79,36 +73,34 @@ export default function UserTableData({ users }: Props) {
               total: pages,
             }}
             onPageChange={(page) => setPage(page)}
-            openDeleteModal={deleteOpenChange}
+            openDeleteModal={(user) => {
+              setSelectedUser(user);
+              deleteOpenChange();
+            }}
+            onEdit={(user) => {
+              setSelectedUser(user);
+              editOpenChange();
+            }}
           />
         </div>
       </div>
 
-      <Modal isOpen={deleteOpen} onClose={deleteOpenChange}>
-        <ModalContent>
-          {(onClose) => {
-            return (
-              <>
-                <ModalHeader>
-                  Are you sure you want to delete this user?
-                </ModalHeader>
-                <ModalBody>
-                  <div className="flex justify-end gap-4">
-                    <Button color="default" onPress={onClose}>
-                      Cancel
-                    </Button>
-                    <Button color="danger" onPress={onClose}>
-                      Delete
-                    </Button>
-                  </div>
-                </ModalBody>
-              </>
-            );
-          }}
-        </ModalContent>
-      </Modal>
-
       <AddNewUserModal isOpen={addOpen} onClose={addOpenChange} />
+
+      {selectedUser && (
+        <EditUserModal
+          user={selectedUser}
+          isOpen={editOpen}
+          onClose={editOpenChange}
+        />
+      )}
+      {selectedUser && (
+        <DeleteUserModal
+          user={selectedUser}
+          isOpen={deleteOpen}
+          onClose={deleteOpenChange}
+        />
+      )}
     </>
   );
 }

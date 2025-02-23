@@ -1,13 +1,9 @@
-import { Button } from "@heroui/button";
-import { Input } from "@heroui/input";
-
-import { SearchIcon } from "@/components/icons";
 import { fontRoboto } from "@/config/fonts";
 
 export default function Loading() {
   return (
-    <div className={`pt-6 flex flex-col ${fontRoboto.className}`}>
-      <p className="text-xl font-semibold">Account Management</p>
+    <div className={`flex flex-col pt-6 ${fontRoboto.className} animate-pulse`}>
+      {/* <p className="text-xl font-semibold">Account Management</p>
 
       <div className="flex justify-between items-center pt-2">
         <Input
@@ -27,19 +23,19 @@ export default function Loading() {
         >
           Add New User
         </Button>
-      </div>
-      {/* <div className="w-56 h-7 bg-gray-300 rounded-full" />
+      </div> */}
+      <div className="h-7 w-56 rounded-full bg-gray-300" />
 
       <div className="flex flex-col pt-2">
-        <div className="flex justify-between items-center">
-          <div className="w-full h-10 bg-gray-300  rounded-full md:w-96" />
+        <div className="flex items-center justify-between">
+          <div className="h-10 w-48 rounded-full bg-gray-300 md:w-96" />
 
-          <div className="w-40 h-10 bg-gray-300 rounded-full" />
+          <div className="h-10 w-32 rounded-full bg-gray-300" />
         </div>
-      </div> */}
+      </div>
 
       <div className="mt-4">
-        <div className="w-full h-[600px] bg-gray-300 rounded-lg" />
+        <div className="h-[600px] w-full rounded-lg bg-gray-300" />
       </div>
     </div>
   );
