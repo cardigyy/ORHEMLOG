@@ -10,6 +10,8 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
+import { Spinner } from "@heroui/spinner";
+import { addToast } from "@heroui/toast";
 import { useState } from "react";
 
 interface Props {
@@ -23,25 +25,57 @@ export default function AddNewUserModal(props: Props) {
     email: "",
     password: "",
     division: "",
-    status: false,
   });
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const result = await fetch("/api/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    setData({
-      name: "",
-      email: "",
-      password: "",
-      division: "",
-      status: false,
-    });
+      if (result.ok) {
+        addToast({
+          title: "SUCCESS",
+          description: "User added successfully",
+          color: "success",
+        });
+      } else {
+        throw new Error("Failed to add user");
+      }
+    } catch (error: any) {
+      addToast({
+        title: "ERROR",
+        description: error.toString(),
+        color: "danger",
+      });
+    } finally {
+      setLoading(false);
+      setData({
+        name: "",
+        email: "",
+        password: "",
+        division: "",
+      });
 
-    props.onClose();
+      props.onClose();
+    }
   };
 
   return (
-    <Modal isOpen={props.isOpen} onClose={props.onClose} backdrop="blur">
+    <Modal
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      backdrop="blur"
+      isDismissable={false}
+      hideCloseButton={true}
+    >
       <Form validationBehavior="native" onSubmit={onSubmit}>
         <ModalContent>
           {(onClose) => (
@@ -90,11 +124,16 @@ export default function AddNewUserModal(props: Props) {
               </ModalBody>
 
               <ModalFooter>
-                <Button onPress={onClose} color="danger" variant="flat">
+                <Button
+                  onPress={onClose}
+                  color="danger"
+                  variant="flat"
+                  isDisabled={loading}
+                >
                   Cancel
                 </Button>
-                <Button color="primary" type="submit">
-                  Add
+                <Button color="primary" type="submit" isDisabled={loading}>
+                  {loading ? <Spinner color="default" size="sm" /> : "Add"}
                 </Button>
               </ModalFooter>
             </>

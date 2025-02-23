@@ -13,3 +13,10 @@ export interface PartDetection {
   user: string;
   results: string;
 }
+
+export interface IAddNewUser {
+  name: string;
+  division: string;
+  email: string;
+  password: string;
+}

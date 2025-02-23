@@ -103,7 +103,7 @@ export default function Page() {
                 onChange={(e) => setData({ ...data, password: e.target.value })}
                 isRequired
               />
-              <Button color="primary" type="submit" disabled={submitLoading}>
+              <Button color="primary" type="submit" isDisabled={submitLoading}>
                 Login
               </Button>
             </Form>
