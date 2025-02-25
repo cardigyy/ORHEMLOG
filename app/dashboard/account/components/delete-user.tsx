@@ -6,22 +6,60 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
+import { addToast } from "@heroui/toast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import { User } from "@/config/types";
+import { IUser } from "@/config/types";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  user: User;
+  user: IUser;
 }
 
 export default function DeleteUserModal(props: Props) {
-  const onDelete = () => {
-    props.onClose();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const onDelete = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/user/${props.user.id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete user");
+      } else {
+        router.refresh();
+        addToast({
+          title: "SUCCESS",
+          description: "User deleted successfully",
+          color: "success",
+        });
+      }
+    } catch (_) {
+      addToast({
+        title: "ERROR",
+        description: "Failed to delete user",
+        color: "danger",
+      });
+    } finally {
+      setLoading(false);
+      props.onClose();
+    }
   };
 
   return (
-    <Modal isOpen={props.isOpen} onClose={props.onClose} backdrop="blur">
+    <Modal
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      backdrop="blur"
+      isDismissable={false}
+      isKeyboardDismissDisabled={true}
+      hideCloseButton={true}
+    >
       <ModalContent>
         {(onClose) => (
           <>
@@ -30,10 +68,15 @@ export default function DeleteUserModal(props: Props) {
               Are you sure you want to delete {props.user.name}?
             </ModalBody>
             <ModalFooter>
-              <Button onPress={onClose} variant="flat" color="default">
+              <Button
+                onPress={onClose}
+                variant="flat"
+                color="default"
+                isDisabled={loading}
+              >
                 Cancel
               </Button>
-              <Button onPress={onDelete} color="danger">
+              <Button onPress={onDelete} color="danger" isDisabled={loading}>
                 Delete
               </Button>
             </ModalFooter>

@@ -56,7 +56,8 @@ export default function AddNewUserModal(props: Props) {
           color: "success",
         });
       } else {
-        throw new Error("Failed to add user");
+        const { data } = await result.json();
+        throw new Error(data.message);
       }
     } catch (error: any) {
       addToast({
