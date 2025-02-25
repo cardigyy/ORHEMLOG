@@ -5,7 +5,7 @@ export interface IUser {
   division: string;
   status: boolean;
   createdAt: string | null;
-  updatedAt: string | null
+  updatedAt: string | null;
 }
 
 export interface PartDetection {

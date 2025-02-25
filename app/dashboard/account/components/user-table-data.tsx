@@ -12,6 +12,7 @@ import UserTable from "./user-table";
 
 import { SearchIcon } from "@/components/icons";
 import { IUser } from "@/config/types";
+import { useAuth } from "@/lib/auth-context";
 
 const AddModal = dynamic(() => import("./add-new-user"), {
   loading: () => <p>Loading...</p>,
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export default function UserTableData({ users }: Props) {
+  const { user } = useAuth();
   const { isOpen: deleteOpen, onOpenChange: deleteOpenChange } =
     useDisclosure();
   const { isOpen: addOpen, onOpenChange: addOpenChange } = useDisclosure();
@@ -85,6 +87,7 @@ export default function UserTableData({ users }: Props) {
               setSelectedUser(user);
               editOpenChange();
             }}
+            userUid={user ? user.uid : ""}
           />
         </div>
       </div>
@@ -96,6 +99,7 @@ export default function UserTableData({ users }: Props) {
           user={selectedUser}
           isOpen={editOpen}
           onClose={editOpenChange}
+          authUid={user ? user.uid : ""}
         />
       )}
       {selectedUser && (

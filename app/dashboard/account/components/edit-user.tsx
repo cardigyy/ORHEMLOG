@@ -10,12 +10,13 @@ import {
 } from "@heroui/modal";
 import { useEffect, useState } from "react";
 
-import { User } from "@/config/types";
+import { IUser } from "@/config/types";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  user: User;
+  user: IUser;
+  authUid: string;
 }
 
 export default function EditUserModal(props: Props) {
@@ -61,7 +62,7 @@ export default function EditUserModal(props: Props) {
                   isRequired
                 />
                 <Input
-                  variant="faded"
+                  variant={props.authUid === props.user.id ? "flat" : "faded"}
                   label="Division"
                   name="division"
                   value={data.division}
@@ -69,6 +70,7 @@ export default function EditUserModal(props: Props) {
                     setData({ ...data, division: e.target.value })
                   }
                   isRequired
+                  disabled={props.authUid === props.user.id}
                 />
                 <Input label="Email" type="email" value={data.email} disabled />
                 <Input

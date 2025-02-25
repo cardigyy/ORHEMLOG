@@ -23,6 +23,7 @@ interface Props {
   };
   openDeleteModal: (user: IUser) => void;
   onEdit: (user: IUser) => void;
+  userUid: string;
 }
 
 export default function UserTable({
@@ -31,6 +32,7 @@ export default function UserTable({
   page,
   openDeleteModal,
   onEdit,
+  userUid,
 }: Props) {
   return (
     <Table
@@ -95,8 +97,11 @@ export default function UserTable({
               <Button
                 isIconOnly
                 color="danger"
-                title="Delete"
+                title={
+                  row.id === userUid ? "You can't delete yourself" : "Delete"
+                }
                 onPress={() => openDeleteModal(row)}
+                isDisabled={row.id === userUid}
               >
                 <DeleteIcon className="size-5" />
               </Button>
