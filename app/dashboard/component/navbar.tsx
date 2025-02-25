@@ -1,5 +1,3 @@
-"use client";
-
 import { Avatar } from "@heroui/avatar";
 import {
   Dropdown,
@@ -7,38 +5,21 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/dropdown";
-import { Link } from "@heroui/link";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
-} from "@heroui/navbar";
-import { useState } from "react";
+import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar";
 
 import { fontBlackOpsOne } from "@/config/fonts";
 
 export default function DashboardNavbar({ logout }: { logout: () => void }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuItems = ["Account", "History"];
   return (
-    <Navbar
-      onMenuOpenChange={setIsMenuOpen}
-      maxWidth="2xl"
-      isBordered
-      className="bg-[#403956]"
-      height={68}
-    >
+    <Navbar maxWidth="2xl" isBordered className="bg-[#403956]" height={68}>
       <NavbarContent>
-        <NavbarMenuToggle
+        {/* <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="text-white sm:hidden"
-        />
+        /> */}
         <NavbarBrand>
           <p
-            className={`pt-1 text-xl font-semibold text-white lg:pt-0 lg:text-2xl ${fontBlackOpsOne.className}`}
+            className={`pt-1 text-xl font-semibold text-white sm:text-2xl lg:pt-0 ${fontBlackOpsOne.className}`}
           >
             ORHEMLOG
           </p>
@@ -89,15 +70,20 @@ export default function DashboardNavbar({ logout }: { logout: () => void }) {
         </Dropdown>
       </NavbarContent>
 
-      <NavbarMenu>
+      {/* <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link className="w-full" href="/dashboard">
-              {item}
+            <Link
+              color={pathname === item.url ? "primary" : "white"}
+              className="w-full"
+              href={item.url}
+              size="lg"
+            >
+              {item.display}
             </Link>
           </NavbarMenuItem>
         ))}
-      </NavbarMenu>
+      </NavbarMenu> */}
     </Navbar>
   );
 }
