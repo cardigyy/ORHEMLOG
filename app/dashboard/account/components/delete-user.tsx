@@ -6,6 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
+import { Spinner } from "@heroui/spinner";
 import { addToast } from "@heroui/toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -77,7 +78,7 @@ export default function DeleteUserModal(props: Props) {
                 Cancel
               </Button>
               <Button onPress={onDelete} color="danger" isDisabled={loading}>
-                Delete
+                {loading ? <Spinner color="default" size="sm" /> : "Delete"}
               </Button>
             </ModalFooter>
           </>
