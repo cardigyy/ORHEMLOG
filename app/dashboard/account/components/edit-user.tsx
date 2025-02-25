@@ -8,6 +8,10 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
+import { Select, SelectItem } from "@heroui/select";
+import { Spinner } from "@heroui/spinner";
+import { addToast } from "@heroui/toast";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { IUser } from "@/config/types";
@@ -20,22 +24,51 @@ interface Props {
 }
 
 export default function EditUserModal(props: Props) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     name: "",
     division: "",
     email: "",
     password: "",
+    status: 0,
   });
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/user/${props.user.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    setData({
-      ...props.user,
-      password: "",
-    });
-
-    props.onClose();
+      if (response.ok) {
+        setTimeout(() => {
+          addToast({
+            title: "SUCCESS",
+            description: "User updated successfully",
+            color: "success",
+          });
+        }, 500);
+        router.refresh();
+      } else {
+        const { data } = await response.json();
+        throw new Error(data.message);
+      }
+    } catch (error: any) {
+      addToast({
+        title: "ERROR",
+        description: error.toString(),
+        color: "danger",
+      });
+    } finally {
+      setLoading(false);
+      props.onClose();
+    }
   };
 
   useEffect(() => {
@@ -59,6 +92,7 @@ export default function EditUserModal(props: Props) {
                   name="name"
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
+                  disabled={loading}
                   isRequired
                 />
                 <Input
@@ -70,9 +104,22 @@ export default function EditUserModal(props: Props) {
                     setData({ ...data, division: e.target.value })
                   }
                   isRequired
-                  disabled={props.authUid === props.user.id}
+                  disabled={props.authUid === props.user.id || loading}
                 />
                 <Input label="Email" type="email" value={data.email} disabled />
+                <Select
+                  variant={props.authUid === props.user.id ? "flat" : "faded"}
+                  label="Status"
+                  selectedKeys={[data.status.toString()]}
+                  onChange={(e) =>
+                    setData({ ...data, status: parseInt(e.target.value) })
+                  }
+                  isRequired
+                  isDisabled={props.authUid === props.user.id || loading}
+                >
+                  <SelectItem key={"0"}>Inactive</SelectItem>
+                  <SelectItem key={"1"}>Active</SelectItem>
+                </Select>
                 <Input
                   variant="faded"
                   label="Password"
@@ -83,15 +130,21 @@ export default function EditUserModal(props: Props) {
                   onChange={(e) =>
                     setData({ ...data, password: e.target.value })
                   }
+                  disabled={loading}
                 />
               </ModalBody>
 
               <ModalFooter>
-                <Button onPress={onClose} color="danger" variant="flat">
+                <Button
+                  onPress={onClose}
+                  color="danger"
+                  variant="flat"
+                  isDisabled={loading}
+                >
                   Cancel
                 </Button>
-                <Button color="primary" type="submit">
-                  Save
+                <Button color="primary" type="submit" isDisabled={loading}>
+                  {loading ? <Spinner color="default" size="sm" /> : "Update"}
                 </Button>
               </ModalFooter>
             </>

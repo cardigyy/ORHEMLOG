@@ -3,7 +3,7 @@ export interface IUser {
   name: string;
   email: string;
   division: string;
-  status: boolean;
+  status: number;
   createdAt: string | null;
   updatedAt: string | null;
 }

@@ -99,6 +99,7 @@ export default function AddNewUserModal(props: Props) {
                   name="name"
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
+                  disabled={loading}
                   isRequired
                 />
                 <Input
@@ -109,6 +110,7 @@ export default function AddNewUserModal(props: Props) {
                   onChange={(e) =>
                     setData({ ...data, division: e.target.value })
                   }
+                  disabled={loading}
                   isRequired
                 />
                 <Input
@@ -118,6 +120,7 @@ export default function AddNewUserModal(props: Props) {
                   name="email"
                   value={data.email}
                   onChange={(e) => setData({ ...data, email: e.target.value })}
+                  disabled={loading}
                   isRequired
                 />
                 <Input
@@ -130,6 +133,7 @@ export default function AddNewUserModal(props: Props) {
                   onChange={(e) =>
                     setData({ ...data, password: e.target.value })
                   }
+                  disabled={loading}
                   isRequired
                 />
               </ModalBody>
