@@ -30,7 +30,7 @@ export default function DeleteHistoryModal({
   const onDelete = async () => {
     setDeleteLoading(true);
     try {
-      const result = await fetch(`/api/history/${history.id}`, {
+      const result = await fetch(`/api/history?id=${history.id}dadaw`, {
         method: "DELETE",
       });
 

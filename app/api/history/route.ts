@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { adminDB } from "@/lib/firebase";
 
-export async function DELETE(
-  _: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest) {
   try {
-    const uid = params.id;
+    const uid = req.nextUrl.searchParams.get("id");
+
+    if (!uid) {
+      return new NextResponse(
+        JSON.stringify({ message: "Invalid request", data: uid }),
+        {
+          status: 400,
+        }
+      );
+    }
 
     await adminDB.collection("detections").doc(uid).delete();
 

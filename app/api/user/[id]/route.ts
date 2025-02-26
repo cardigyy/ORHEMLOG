@@ -4,10 +4,10 @@ import { adminAuth, adminDB } from "@/lib/firebase";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const uid = params.id;
+    const uid = (await params).id;
 
     await adminAuth.deleteUser(uid);
     await adminDB.collection("users").doc(uid).delete();
@@ -28,10 +28,10 @@ export async function DELETE(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const uid = params.id;
+    const uid = (await params).id;
     const body = await req.json();
 
     await adminAuth.updateUser(uid, {
