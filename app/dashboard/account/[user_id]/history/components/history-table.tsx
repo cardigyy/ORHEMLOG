@@ -17,6 +17,7 @@ import {
 import { useMemo, useState } from "react";
 import Moment from "react-moment";
 
+import DeleteHistoryModal from "./delete-modal";
 import ImageModal from "./image-modal";
 
 import { DeleteIcon, SearchIcon } from "@/components/icons";
@@ -27,10 +28,11 @@ interface Props {
   histories: DetectionHistory[];
 }
 
-let index = 0;
-
 export default function HistoryTable({ histories }: Props) {
+  let index = 0;
   const { isOpen, onOpenChange } = useDisclosure();
+  const { isOpen: deleteOpen, onOpenChange: onDeleteOpenChange } =
+    useDisclosure();
   const [selectedRow, setSelectedRow] = useState<DetectionHistory | null>(null);
 
   const [page, setPage] = useState(1);
@@ -133,7 +135,10 @@ export default function HistoryTable({ histories }: Props) {
                 <Button
                   isIconOnly
                   color="danger"
-                  // onPress={() => openDeleteModal(row)}
+                  onPress={() => {
+                    onDeleteOpenChange();
+                    setSelectedRow(row);
+                  }}
                 >
                   <DeleteIcon className="size-5" />
                 </Button>
@@ -151,6 +156,14 @@ export default function HistoryTable({ histories }: Props) {
             setSelectedRow(null);
           }}
           url={selectedRow.image}
+        />
+      )}
+
+      {deleteOpen && selectedRow && (
+        <DeleteHistoryModal
+          isOpen={deleteOpen}
+          onClose={onDeleteOpenChange}
+          history={selectedRow}
         />
       )}
     </div>
