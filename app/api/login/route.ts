@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       body.email,
       body.password
     );
-    // console.log(user);
+    
     return new NextResponse(
       JSON.stringify({ message: "Login Success", data: user }),
       {

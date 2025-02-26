@@ -32,7 +32,6 @@ export default function UserTableData({ users }: Props) {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const rowsPerPage = 8;
-  console.log(users);
 
   const filteredData = useMemo(() => {
     return users.filter((row) =>

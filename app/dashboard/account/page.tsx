@@ -7,6 +7,9 @@ import { fontRoboto } from "@/config/fonts";
 import { IUser } from "@/config/types";
 import { adminDB } from "@/lib/firebase";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 async function fetchData(): Promise<IUser[]> {
   const userRef = adminDB.collection("users").orderBy("name");
   const snapshot = await userRef.get();

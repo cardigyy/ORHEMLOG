@@ -14,6 +14,9 @@ interface Props {
   params: Promise<{ user_id: string }>;
 }
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 async function fetchData(uid: string) {
   const userRef = adminDB.collection("users").doc(uid);
   const snapshot = await userRef.get();
