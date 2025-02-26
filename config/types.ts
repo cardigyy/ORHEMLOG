@@ -8,12 +8,15 @@ export interface IUser {
   updatedAt: string | null;
 }
 
-export interface PartDetection {
+export interface DetectionHistory {
+  id: string;
   part_name: string;
   part_number: string;
   status: string;
-  user: string;
-  results: string;
+  user_id: string;
+  image: string;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
 export interface IAddNewUser {

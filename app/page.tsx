@@ -21,6 +21,7 @@ export default function Page() {
 
   useEffect(() => {
     if (!loading && user) {
+      setSubmitLoading(true);
       router.push("/dashboard/account");
     }
   }, [user, loading]);
@@ -105,7 +106,12 @@ export default function Page() {
                 onChange={(e) => setData({ ...data, password: e.target.value })}
                 isRequired
               />
-              <Button color="primary" type="submit" isDisabled={submitLoading}>
+              <Button
+                color="primary"
+                type="submit"
+                isDisabled={submitLoading}
+                isLoading={submitLoading}
+              >
                 Login
               </Button>
             </Form>
