@@ -9,10 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
+import Link from "next/link";
 
 import { DeleteIcon, EditIcon, HistoryIcon } from "@/components/icons";
 import { IUser } from "@/config/types";
-import Link from "next/link";
 
 interface Props {
   items: IUser[];

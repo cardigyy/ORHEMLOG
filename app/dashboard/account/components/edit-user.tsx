@@ -8,7 +8,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
-import { Select, SelectItem } from "@heroui/select";
 import { Spinner } from "@heroui/spinner";
 import { addToast } from "@heroui/toast";
 import { useRouter } from "next/navigation";
@@ -30,8 +29,6 @@ export default function EditUserModal(props: Props) {
     name: "",
     division: "",
     email: "",
-    password: "",
-    status: 0,
   });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +71,6 @@ export default function EditUserModal(props: Props) {
   useEffect(() => {
     setData({
       ...props.user,
-      password: "",
     });
   }, [props.user]);
 
@@ -107,7 +103,7 @@ export default function EditUserModal(props: Props) {
                   disabled={props.authUid === props.user.id || loading}
                 />
                 <Input label="Email" type="email" value={data.email} disabled />
-                <Select
+                {/* <Select
                   variant={props.authUid === props.user.id ? "flat" : "faded"}
                   label="Status"
                   selectedKeys={[data.status.toString()]}
@@ -119,8 +115,8 @@ export default function EditUserModal(props: Props) {
                 >
                   <SelectItem key={"0"}>Inactive</SelectItem>
                   <SelectItem key={"1"}>Active</SelectItem>
-                </Select>
-                <Input
+                </Select> */}
+                {/* <Input
                   variant="faded"
                   label="Password"
                   type="password"
@@ -131,7 +127,7 @@ export default function EditUserModal(props: Props) {
                     setData({ ...data, password: e.target.value })
                   }
                   disabled={loading}
-                />
+                /> */}
               </ModalBody>
 
               <ModalFooter>
