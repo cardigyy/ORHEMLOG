@@ -5,20 +5,18 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { addToast } from "@heroui/toast";
-import { FirebaseError } from "firebase/app";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import BackgroundImage from "./image2.jpg";
+import BackgroundImage from "../image2.jpg";
 
 import { fontBlackOpsOne, fontRoboto } from "@/config/fonts";
 import { useAuth } from "@/lib/auth-context";
 
 export default function Page() {
   const router = useRouter();
-  const { loading, user, signIn } = useAuth();
+  const { loading, user } = useAuth();
   const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
@@ -28,26 +26,33 @@ export default function Page() {
     }
   }, [user, loading]);
 
-  const [data, setData] = useState({ email: "", password: "" });
+  const [data, setData] = useState({ email: "" });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitLoading(true);
     try {
-      await signIn(data.email, data.password);
-    } catch (error) {
-      if (
-        error instanceof FirebaseError &&
-        error.code === "auth/invalid-credential"
-      ) {
-        alert("Invalid email or password");
+      const res = await fetch("/api/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const { message } = await res.json();
+        throw new Error(message);
       } else {
         addToast({
-          title: "ERROR",
-          description: (error as Error).message,
-          color: "danger",
+          title: "SUCCESS",
+          description: "Reset password email has been sent",
+          color: "success",
         });
+        router.replace("/");
       }
+    } catch (error) {
+      alert((error as Error).message);
     } finally {
       setSubmitLoading(false);
     }
@@ -84,7 +89,7 @@ export default function Page() {
       <div className="z-10 flex w-full flex-col items-center justify-center bg-white p-8 lg:w-4/12">
         <Card className="w-full p-4" shadow="md">
           <CardHeader className="flex justify-center">
-            <h1 className="text-2xl font-semibold">Login</h1>
+            <h1 className="text-2xl font-semibold">Reset Password</h1>
           </CardHeader>
 
           <CardBody>
@@ -99,35 +104,18 @@ export default function Page() {
                 type="email"
                 name="email"
                 value={data.email}
-                onChange={(e) => setData({ ...data, email: e.target.value })}
+                onChange={(e) => setData({ email: e.target.value })}
                 isRequired
               />
-              <Input
-                variant="faded"
-                label="Password"
-                type="password"
-                name="password"
-                minLength={8}
-                value={data.password}
-                onChange={(e) => setData({ ...data, password: e.target.value })}
-                isRequired
-              />
-              <div className="flex w-full items-center justify-between">
-                <Button
-                  color="primary"
-                  type="submit"
-                  isDisabled={submitLoading}
-                  isLoading={submitLoading}
-                >
-                  Login
-                </Button>
-                <Link
-                  href={"/forgot-password"}
-                  className="text-xs text-primary-500 underline"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
+              <Button
+                color="primary"
+                className="w-full"
+                type="submit"
+                isDisabled={submitLoading}
+                isLoading={submitLoading}
+              >
+                Send Reset Password Email
+              </Button>
             </Form>
           </CardBody>
         </Card>
