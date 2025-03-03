@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { Suspense } from "react";
 
 import UserTableData from "./components/user-table-data";
@@ -9,6 +10,10 @@ import { adminDB } from "@/lib/firebase";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "Account - Orhemlog",
+};
 
 async function fetchData(): Promise<IUser[]> {
   const userRef = adminDB.collection("users").orderBy("name");
@@ -31,16 +36,18 @@ export default async function Dashboard() {
   const users = await fetchData();
 
   return (
-    <div className={`flex flex-col pt-6 ${fontRoboto.className}`}>
-      <p className="text-xl font-semibold md:text-2xl">Account Management</p>
+    <>
+      <div className={`flex flex-col pt-6 ${fontRoboto.className}`}>
+        <p className="text-xl font-semibold md:text-2xl">Account Management</p>
 
-      <Suspense fallback={<Loading />}>
-        <UserTableData users={users} />
-      </Suspense>
+        <Suspense fallback={<Loading />}>
+          <UserTableData users={users} />
+        </Suspense>
 
-      <footer className="mt-8 pb-4 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} Your Company. All rights reserved.
-      </footer>
-    </div>
+        <footer className="mt-8 pb-4 text-center text-sm text-gray-500">
+          &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+        </footer>
+      </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import { ArrowLeftIcon } from "@heroui/shared-icons";
+import { Metadata } from "next";
 import { Suspense } from "react";
 
 import HistoryTable from "./components/history-table";
@@ -10,6 +11,9 @@ import { fontRoboto } from "@/config/fonts";
 import { DetectionHistory, IUser } from "@/config/types";
 import { adminDB } from "@/lib/firebase";
 
+export const metadata: Metadata = {
+  title: "History - Orhemlog",
+};
 interface Props {
   params: Promise<{ user_id: string }>;
 }
