@@ -36,8 +36,6 @@ export async function PUT(
 
     await adminAuth.updateUser(uid, {
       displayName: body.name,
-      password: body.password ? body.password : undefined,
-      disabled: !(body.status == 1),
     });
 
     await adminAuth.setCustomUserClaims(uid, {
@@ -47,7 +45,6 @@ export async function PUT(
     await adminDB.collection("users").doc(uid).update({
       name: body.name,
       division: body.division,
-      status: body.status,
     });
 
     return new NextResponse(

@@ -4,6 +4,8 @@ export interface IUser {
   email: string;
   division: string;
   status: number;
+  isOnline: boolean | undefined;
+  lastSeen: string | undefined;
   createdAt: string | null;
   updatedAt: string | null;
 }
