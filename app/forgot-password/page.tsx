@@ -11,8 +11,10 @@ import { useEffect, useState } from "react";
 
 import BackgroundImage from "../image2.jpg";
 
+import { LeftArrowIcon } from "@/components/icons";
 import { fontBlackOpsOne, fontRoboto } from "@/config/fonts";
 import { useAuth } from "@/lib/auth-context";
+import Link from "next/link";
 
 export default function Page() {
   const router = useRouter();
@@ -87,6 +89,12 @@ export default function Page() {
         </div>
       </div>
       <div className="z-10 flex w-full flex-col items-center justify-center bg-white p-8 lg:w-4/12">
+        <div className="w-full items-start">
+          <Button as={Link} href="/" variant="ghost" className="mb-4">
+            <LeftArrowIcon className="size-5" />
+            Back to Login
+          </Button>
+        </div>
         <Card className="w-full p-4" shadow="md">
           <CardHeader className="flex justify-center">
             <h1 className="text-2xl font-semibold">Reset Password</h1>
