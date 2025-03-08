@@ -6,6 +6,7 @@ import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { addToast } from "@heroui/toast";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -14,7 +15,6 @@ import BackgroundImage from "../image2.jpg";
 import { LeftArrowIcon } from "@/components/icons";
 import { fontBlackOpsOne, fontRoboto } from "@/config/fonts";
 import { useAuth } from "@/lib/auth-context";
-import Link from "next/link";
 
 export default function Page() {
   const router = useRouter();

@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className={`${fontRoboto.className}`}>
-      <DashboardNavbar logout={logout} />
+      <DashboardNavbar user={user} logout={logout} />
 
       <div className="mx-auto max-w-[1536px] px-6">{children}</div>
     </div>

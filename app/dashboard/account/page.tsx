@@ -28,7 +28,6 @@ async function fetchData(): Promise<IUser[]> {
     };
   });
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   return data as IUser[];
 }
 

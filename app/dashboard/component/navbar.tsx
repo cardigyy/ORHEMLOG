@@ -6,84 +6,57 @@ import {
   DropdownTrigger,
 } from "@heroui/dropdown";
 import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar";
+import { User } from "firebase/auth";
+import Link from "next/link";
 
 import { fontBlackOpsOne } from "@/config/fonts";
+import Route from "@/config/routes";
 
-export default function DashboardNavbar({ logout }: { logout: () => void }) {
+export default function DashboardNavbar({
+  user,
+  logout,
+}: {
+  user: User | null;
+  logout: () => void;
+}) {
   return (
     <Navbar maxWidth="2xl" isBordered className="bg-[#403956]" height={68}>
       <NavbarContent>
-        {/* <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="text-white sm:hidden"
-        /> */}
         <NavbarBrand>
-          <p
-            className={`pt-1 text-xl font-semibold text-white sm:text-2xl lg:pt-0 ${fontBlackOpsOne.className}`}
+          <Link
+            href={Route.DASHBOARD_ACCOUNT.url}
+            className={`cursor-pointer pt-1 text-xl font-semibold text-white sm:text-2xl lg:pt-0 ${fontBlackOpsOne.className}`}
           >
             ORHEMLOG
-          </p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
-
-      {/* <NavbarContent className="hidden sm:flex gap-8" justify="center">
-        <NavbarItem isActive>
-          <Link
-            href={Route.DASHBOARD_ACCOUNT}
-            className={
-              pathname === Route.DASHBOARD_ACCOUNT
-                ? `text-[#FFD700]`
-                : `text-white`
-            }
-            size="lg"
-            underline="hover"
-          >
-            Account
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            href={Route.DASHBOARD_HISTORY}
-            className={
-              pathname === Route.DASHBOARD_HISTORY
-                ? `text-[#FFD700]`
-                : `text-white`
-            }
-            size="lg"
-            underline="hover"
-          >
-            History
-          </Link>
-        </NavbarItem>
-      </NavbarContent> */}
 
       <NavbarContent justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar size="md" className="cursor-pointer" />
           </DropdownTrigger>
-          <DropdownMenu variant="flat">
+          <DropdownMenu variant="flat" disabledKeys={["user-profile"]}>
+            <DropdownItem key={"user-profile"} showDivider>
+              {user && (
+                <>
+                  <p className="text-sm font-semibold text-black">
+                    {user.displayName}
+                  </p>
+                  <p className="text-sm font-semibold">{user.email}</p>
+                </>
+              )}
+            </DropdownItem>
+            <DropdownItem key="profile" href="profile">
+              <p>Profile</p>
+            </DropdownItem>
             <DropdownItem key="logout" onPress={logout}>
               <p>Logout</p>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
-
-      {/* <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={pathname === item.url ? "primary" : "white"}
-              className="w-full"
-              href={item.url}
-              size="lg"
-            >
-              {item.display}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu> */}
     </Navbar>
   );
 }
