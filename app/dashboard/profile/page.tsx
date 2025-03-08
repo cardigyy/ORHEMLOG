@@ -5,7 +5,6 @@ import { Card, CardBody } from "@heroui/card";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { addToast } from "@heroui/toast";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { fontRoboto } from "@/config/fonts";
@@ -15,7 +14,6 @@ import { useAuth } from "@/lib/auth-context";
 export const dynamic = "force-dynamic";
 
 export default function Page() {
-  const router = useRouter();
   const { user } = useAuth();
   const [userData, setUserData] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(false);
@@ -77,7 +75,7 @@ export default function Page() {
             color: "success",
           });
         }, 500);
-        
+
         window.location.reload();
       } else {
         const { data } = await response.json();

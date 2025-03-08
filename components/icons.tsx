@@ -266,3 +266,24 @@ export function LeftArrowIcon(props: IconSvgProps) {
     </svg>
   );
 }
+
+export const LogoutIcon = (props: IconSvgProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    focusable="false"
+    height="1em"
+    role="presentation"
+    viewBox="0 0 24 24"
+    width="1em"
+    {...props}
+  >
+    <path
+      d="M16 17l5-5m0 0l-5-5m5 5H9m7 5v1a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h9a2 2 0 012 2v1"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    />
+  </svg>
+);

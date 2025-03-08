@@ -6,9 +6,11 @@ import {
   DropdownTrigger,
 } from "@heroui/dropdown";
 import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar";
+import { AvatarIcon } from "@heroui/shared-icons";
 import { User } from "firebase/auth";
 import Link from "next/link";
 
+import { LogoutIcon } from "@/components/icons";
 import { fontBlackOpsOne } from "@/config/fonts";
 import Route from "@/config/routes";
 
@@ -48,10 +50,18 @@ export default function DashboardNavbar({
                 </>
               )}
             </DropdownItem>
-            <DropdownItem key="profile" href="profile">
+            <DropdownItem
+              key="profile"
+              href="profile"
+              startContent={<AvatarIcon />}
+            >
               <p>Profile</p>
             </DropdownItem>
-            <DropdownItem key="logout" onPress={logout}>
+            <DropdownItem
+              key="logout"
+              onPress={logout}
+              startContent={<LogoutIcon />}
+            >
               <p>Logout</p>
             </DropdownItem>
           </DropdownMenu>
