@@ -29,7 +29,6 @@ interface Props {
 }
 
 export default function HistoryTable({ histories }: Props) {
-  let index = 0;
   const { isOpen, onOpenChange } = useDisclosure();
   const { isOpen: deleteOpen, onOpenChange: onDeleteOpenChange } =
     useDisclosure();
@@ -92,18 +91,17 @@ export default function HistoryTable({ histories }: Props) {
         }
       >
         <TableHeader>
-          <TableColumn key="no">No</TableColumn>
           <TableColumn key="datetime">Date and Time</TableColumn>
           <TableColumn key="part_name">Part Name</TableColumn>
           <TableColumn key="part_number">Part Number</TableColumn>
           <TableColumn key="status">Status</TableColumn>
+          <TableColumn key="detection_time">Detection Time</TableColumn>
           <TableColumn key="result">Result</TableColumn>
           <TableColumn key="action">Action</TableColumn>
         </TableHeader>
         <TableBody emptyContent={"No histories found."} items={items}>
           {(row) => (
             <TableRow key={row.id}>
-              <TableCell>{index++}</TableCell>
               <TableCell>
                 <Moment format="YYYY-MM-DD HH:mm:ss">{row.createdAt!}</Moment>
               </TableCell>
@@ -115,12 +113,16 @@ export default function HistoryTable({ histories }: Props) {
                 </Chip>
               </TableCell>
               <TableCell>
+                {row.detection_time
+                  ? `${(row.detection_time / 1000).toFixed(2)} s`
+                  : "0.00 s"}
+              </TableCell>
+              <TableCell>
                 {/* <Link href={row.image} target="_blank"> */}
                 <Button
                   isIconOnly
                   color="primary"
                   title="History"
-                  isDisabled={!row.status}
                   className="disabled:cursor-not-allowed"
                   onPress={() => {
                     onOpenChange();

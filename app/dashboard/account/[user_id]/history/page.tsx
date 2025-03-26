@@ -1,7 +1,7 @@
 import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
 import { ArrowLeftIcon } from "@heroui/shared-icons";
 import { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 
 import HistoryTable from "./components/history-table";
@@ -28,7 +28,8 @@ async function fetchData(uid: string) {
 
   const historyRef = adminDB
     .collection("detections")
-    .where("user_id", "==", uid);
+    .where("user_id", "==", uid)
+    .orderBy("createdAt", "desc");
   const historySnapshot = await historyRef.get();
   const history = historySnapshot.docs.map((doc) => {
     const docData = doc.data();

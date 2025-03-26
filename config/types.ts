@@ -17,6 +17,7 @@ export interface DetectionHistory {
   status: string;
   user_id: string;
   image: string;
+  detection_time: number;
   createdAt: string | null;
   updatedAt: string | null;
 }
