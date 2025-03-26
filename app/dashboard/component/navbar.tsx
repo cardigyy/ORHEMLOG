@@ -52,7 +52,7 @@ export default function DashboardNavbar({
             </DropdownItem>
             <DropdownItem
               key="profile"
-              href="profile"
+              href="/profile"
               startContent={<AvatarIcon />}
             >
               <p>Profile</p>
