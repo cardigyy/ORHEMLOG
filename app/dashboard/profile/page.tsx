@@ -124,12 +124,6 @@ export default function Page() {
                   required
                   isDisabled
                 />
-                <Input
-                  variant="bordered"
-                  label="Last Online"
-                  value={userData.lastSeen ?? "-"}
-                  isDisabled
-                />
               </div>
               <Button
                 className="w-full sm:w-fit"
