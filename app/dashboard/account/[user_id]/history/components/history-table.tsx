@@ -17,8 +17,9 @@ import {
 import { useMemo, useState } from "react";
 import Moment from "react-moment";
 
+import ImageModal from "../../../../../components/image-modal";
+
 import DeleteHistoryModal from "./delete-modal";
-import ImageModal from "./image-modal";
 
 import { DeleteIcon, SearchIcon } from "@/components/icons";
 import { DetectionHistory } from "@/config/types";
